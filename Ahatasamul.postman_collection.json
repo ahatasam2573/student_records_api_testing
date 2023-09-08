@@ -1,0 +1,596 @@
+{
+	"info": {
+		"_postman_id": "a5538017-6d7e-4046-9be0-0393f3b5ae10",
+		"name": "Ahatasamul",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25580078"
+	},
+	"item": [
+		{
+			"name": "Get Student First",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json()\r",
+							"var statusCode = pm.response.code\r",
+							"if(statusCode == 200){\r",
+							"    var jsonData = pm.response.json()\r",
+							"    pm.test(\"OK\", function () {\r",
+							"        pm.response.to.have.status(200);\r",
+							"    });\r",
+							"    var checkLength = jsonData.length\r",
+							"    console.log(checkLength)\r",
+							"}\r",
+							"else if(statusCode == 400){\r",
+							"     pm.test(\"BAD REQUEST\", function () {\r",
+							"        pm.response.to.have.status(400);\r",
+							"    });\r",
+							"}else if(statusCode == 401){\r",
+							"     pm.test(\"UNAUTHORIZED\", function () {\r",
+							"        pm.response.to.have.status(401);\r",
+							"    });\r",
+							"}else if(statusCode == 404){\r",
+							"     pm.test(\"NOT FOUND\", function () {\r",
+							"        pm.response.to.have.status(404);\r",
+							"    });\r",
+							"}else if(statusCode == 405){\r",
+							"     pm.test(\"METHOD NOT ALLOWED\", function () {\r",
+							"        pm.response.to.have.status(405);\r",
+							"    });\r",
+							"}else if(statusCode == 500){\r",
+							"     pm.test(\"INTERNAL SERVER ERROR\", function () {\r",
+							"        pm.response.to.have.status(500);\r",
+							"    });\r",
+							"}else if(statusCode == 502){\r",
+							"     pm.test(\"BAD GATEWAY\", function () {\r",
+							"        pm.response.to.have.status(502);\r",
+							"    });\r",
+							"}else if(statusCode == 503){\r",
+							"     pm.test(\"SERVICE UNAVAILABLE\", function () {\r",
+							"        pm.response.to.have.status(503);\r",
+							"    });\r",
+							"}else {\r",
+							"    pm.test(\"Something Went Wrong\")\r",
+							"}\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/studentsDetails",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"studentsDetails"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var statusCode = pm.response.code\r",
+							"if(statusCode == 201){\r",
+							"    var jsonData = pm.response.json()\r",
+							"    pm.environment.set(\"id\", jsonData.id) \r",
+							"    pm.test(\"Created Successfully\", function () {\r",
+							"            pm.response.to.have.status(201);\r",
+							"        });\r",
+							"}else if(statusCode == 400){\r",
+							"     pm.test(\"BAD REQUEST\", function () {\r",
+							"        pm.response.to.have.status(400);\r",
+							"    });\r",
+							"}else if(statusCode == 401){\r",
+							"     pm.test(\"UNAUTHORIZED\", function () {\r",
+							"        pm.response.to.have.status(401);\r",
+							"    });\r",
+							"}else if(statusCode == 404){\r",
+							"     pm.test(\"NOT FOUND\", function () {\r",
+							"        pm.response.to.have.status(404);\r",
+							"    });\r",
+							"}else if(statusCode == 405){\r",
+							"     pm.test(\"METHOD NOT ALLOWED\", function () {\r",
+							"        pm.response.to.have.status(405);\r",
+							"    });\r",
+							"}else if(statusCode == 500){\r",
+							"     pm.test(\"INTERNAL SERVER ERROR\", function () {\r",
+							"        pm.response.to.have.status(500);\r",
+							"    });\r",
+							"}else if(statusCode == 502){\r",
+							"     pm.test(\"BAD GATEWAY\", function () {\r",
+							"        pm.response.to.have.status(502);\r",
+							"    });\r",
+							"}else if(statusCode == 503){\r",
+							"     pm.test(\"SERVICE UNAVAILABLE\", function () {\r",
+							"        pm.response.to.have.status(503);\r",
+							"    });\r",
+							"}else {\r",
+							"    pm.test(\"Something Went Wrong\")\r",
+							"}\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var first_name = pm.variables.replaceIn(\"{{$randomFirstName}}\")\r",
+							"pm.environment.set(\"first_name\", first_name)\r",
+							"\r",
+							"var middle_name = pm.variables.replaceIn(\"{{$randomLastName}}\")\r",
+							"pm.environment.set(\"middle_name\", middle_name)\r",
+							"\r",
+							"var last_name = pm.variables.replaceIn(\"{{$randomLastName}}\")\r",
+							"pm.environment.set(\"last_name\", last_name)\r",
+							"\r",
+							"// creating random date of birth\r",
+							"const minYear = 1950;\r",
+							"const maxYear = 2005;\r",
+							"const year = Math.floor(Math.random() * (maxYear - minYear + 1)) + minYear;\r",
+							"const month = Math.floor(Math.random() * 12) + 1; // 1 to 12\r",
+							"const day = Math.floor(Math.random() * 31) + 1; // 1 to 31\r",
+							"\r",
+							"// Format the date of birth as \"MM/DD/YYYY\"\r",
+							"const formattedDateOfBirth = `${month}/${day}/${year}`;\r",
+							"\r",
+							"// Set the generated date of birth as an environment variable\r",
+							"pm.environment.set(\"date_of_birth\", formattedDateOfBirth);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n\"first_name\": \"{{first_name}}\", \r\n\"middle_name\": \"{{middle_name}}\", \r\n\"last_name\": \"{{last_name}}\", \r\n\"date_of_birth\": \"{{date_of_birth}}\" \r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/studentsDetails",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"studentsDetails"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Specific Student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var statusCode = pm.response.code\r",
+							"\r",
+							"if(statusCode == 200){\r",
+							"    var jsonData = pm.response.json()\r",
+							"    pm.test(\"OK\", function () {\r",
+							"            pm.response.to.have.status(200);\r",
+							"        });\r",
+							"    pm.test(\"ID Validation\", function(){\r",
+							"        pm.expect(jsonData.data.id).to.eql(pm.environment.get(\"id\"))\r",
+							"    })\r",
+							"    pm.test(\"First Name Validation\", function(){\r",
+							"        pm.expect(jsonData.data.first_name).to.eql(pm.environment.get(\"first_name\"))\r",
+							"    })\r",
+							"    pm.test(\"Middle Name Validation\", function(){\r",
+							"        pm.expect(jsonData.data.middle_name).to.eql(pm.environment.get(\"middle_name\")) \r",
+							"    })\r",
+							"    pm.test(\"Last Name Validation\", function(){\r",
+							"        pm.expect(jsonData.data.last_name).to.eql(pm.environment.get(\"last_name\"));\r",
+							"    })\r",
+							"    pm.test(\"Date of birth Validation\", function(){\r",
+							"        pm.expect(jsonData.data.date_of_birth).to.eql(pm.environment.get(\"date_of_birth\")) \r",
+							"    })\r",
+							"}else if(statusCode == 400){\r",
+							"     pm.test(\"BAD REQUEST\", function () {\r",
+							"        pm.response.to.have.status(400);\r",
+							"    });\r",
+							"}else if(statusCode == 401){\r",
+							"     pm.test(\"UNAUTHORIZED\", function () {\r",
+							"        pm.response.to.have.status(401);\r",
+							"    });\r",
+							"}else if(statusCode == 404){\r",
+							"     pm.test(\"NOT FOUND\", function () {\r",
+							"        pm.response.to.have.status(404);\r",
+							"    });\r",
+							"}else if(statusCode == 405){\r",
+							"     pm.test(\"METHOD NOT ALLOWED\", function () {\r",
+							"        pm.response.to.have.status(405);\r",
+							"    });\r",
+							"}else if(statusCode == 500){\r",
+							"     pm.test(\"INTERNAL SERVER ERROR\", function () {\r",
+							"        pm.response.to.have.status(500);\r",
+							"    });\r",
+							"}else if(statusCode == 502){\r",
+							"     pm.test(\"BAD GATEWAY\", function () {\r",
+							"        pm.response.to.have.status(502);\r",
+							"    });\r",
+							"}else if(statusCode == 503){\r",
+							"     pm.test(\"SERVICE UNAVAILABLE\", function () {\r",
+							"        pm.response.to.have.status(503);\r",
+							"    });\r",
+							"}else {\r",
+							"    pm.test(\"Something Went Wrong\")\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/studentsDetails/{{id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"studentsDetails",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Technical Skills",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var statusCode = pm.response.code\r",
+							"if(statusCode == 200){\r",
+							"    var jsonData = pm.response.json()  \r",
+							"    pm.test(\"Created Successfully\", function () {\r",
+							"            pm.response.to.have.status(200);\r",
+							"        });\r",
+							"    \r",
+							"    pm.test(\"Status Field Value is 'true'\", function () {\r",
+							"    pm.expect(jsonData.status).to.eql(\"true\");\r",
+							"    });\r",
+							"    pm.test(\"Message Field Value is 'Add  data success'\", function () {\r",
+							"    pm.expect(jsonData.msg).to.equal(\"Add  data success\");\r",
+							"    });\r",
+							"}else if(statusCode == 400){\r",
+							"     pm.test(\"BAD REQUEST\", function () {\r",
+							"        pm.response.to.have.status(400);\r",
+							"    });\r",
+							"}else if(statusCode == 401){\r",
+							"     pm.test(\"UNAUTHORIZED\", function () {\r",
+							"        pm.response.to.have.status(401);\r",
+							"    });\r",
+							"}else if(statusCode == 404){\r",
+							"     pm.test(\"NOT FOUND\", function () {\r",
+							"        pm.response.to.have.status(404);\r",
+							"    });\r",
+							"}else if(statusCode == 405){\r",
+							"     pm.test(\"METHOD NOT ALLOWED\", function () {\r",
+							"        pm.response.to.have.status(405);\r",
+							"    });\r",
+							"}else if(statusCode == 500){\r",
+							"     pm.test(\"INTERNAL SERVER ERROR\", function () {\r",
+							"        pm.response.to.have.status(500);\r",
+							"    });\r",
+							"}else if(statusCode == 502){\r",
+							"     pm.test(\"BAD GATEWAY\", function () {\r",
+							"        pm.response.to.have.status(502);\r",
+							"    });\r",
+							"}else if(statusCode == 503){\r",
+							"     pm.test(\"SERVICE UNAVAILABLE\", function () {\r",
+							"        pm.response.to.have.status(503);\r",
+							"    });\r",
+							"}else {\r",
+							"    pm.test(\"Something Went Wrong\")\r",
+							"}\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var language = pm.variables.replaceIn([\"{{$randomJobType}}\", \"{{$randomJobType}}\"])\r",
+							"pm.environment.set(\"language\",language)\r",
+							"\r",
+							"var yearexp = pm.variables.replaceIn(\"{{$randomJobType}}\")\r",
+							"pm.environment.set(\"yearexp\",yearexp)\r",
+							"\r",
+							"var lastused = pm.variables.replaceIn(\"{{$randomJobType}}\")\r",
+							"pm.environment.set(\"lastused\",lastused)\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n\"id\": 1, \r\n\"language\": [ \r\n\"{{language}}\"\r\n], \r\n\"yearexp\": \"{{yearexp}}\",\r\n\"lastused\": \"{{lastused}}\",\r\n\"st_id\": \"{{id}}\"\r\n} ",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/technicalskills",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"technicalskills"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Student Address",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var House_Number = pm.variables.replaceIn(\"{{$randomCity}}\")\r",
+							"pm.environment.set(\"House_Number\",House_Number)\r",
+							"\r",
+							"var City = pm.variables.replaceIn(\"{{$randomCity}}\")\r",
+							"pm.environment.set(\"City\",City)\r",
+							"\r",
+							"var State = pm.variables.replaceIn(\"{{$randomCity}}\")\r",
+							"pm.environment.set(\"State\",State)\r",
+							"\r",
+							"var Country = pm.variables.replaceIn(\"{{$randomCountry}}\")\r",
+							"pm.environment.set(\"Country\",Country)\r",
+							"\r",
+							"var Std_Code = pm.variables.replaceIn(\"{{$randomCity}}\")\r",
+							"pm.environment.set(\"Std_Code\",Std_Code)\r",
+							"\r",
+							"var Home = pm.variables.replaceIn(\"{{$randomStreetName}}\")\r",
+							"pm.environment.set(\"Home\",Home)\r",
+							"\r",
+							"var Mobile = pm.variables.replaceIn(\"{{$randomCity}}\")\r",
+							"pm.environment.set(\"Mobile\",Mobile)\r",
+							"\r",
+							"var Std_Code1 = pm.variables.replaceIn(\"{{$randomCity}}\")\r",
+							"pm.environment.set(\"Std_Code1\",Std_Code1)\r",
+							"\r",
+							"var Home1 = pm.variables.replaceIn(\"{{$randomStreetName}}\")\r",
+							"pm.environment.set(\"Home1\",Home1)\r",
+							"\r",
+							"var Mobile1 = pm.variables.replaceIn(\"{{$randomCity}}\")\r",
+							"pm.environment.set(\"Mobile1\",Mobile1)\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var statusCode = pm.response.code\r",
+							"if(statusCode == 200){\r",
+							"    var jsonData = pm.response.json()   \r",
+							"    pm.test(\"Created Successfully\", function () {\r",
+							"            pm.response.to.have.status(200);\r",
+							"        });\r",
+							"    \r",
+							"    pm.test(\"Status Field Value is 'true'\", function () {\r",
+							"    pm.expect(jsonData.status).to.eql(\"true\");\r",
+							"    });\r",
+							"    pm.test(\"Message Field Value is 'Add  data success'\", function () {\r",
+							"    pm.expect(jsonData.msg).to.equal(\"Add  data success\");\r",
+							"    });\r",
+							"}else if(statusCode == 400){\r",
+							"     pm.test(\"BAD REQUEST\", function () {\r",
+							"        pm.response.to.have.status(400);\r",
+							"    });\r",
+							"}else if(statusCode == 401){\r",
+							"     pm.test(\"UNAUTHORIZED\", function () {\r",
+							"        pm.response.to.have.status(401);\r",
+							"    });\r",
+							"}else if(statusCode == 404){\r",
+							"     pm.test(\"NOT FOUND\", function () {\r",
+							"        pm.response.to.have.status(404);\r",
+							"    });\r",
+							"}else if(statusCode == 405){\r",
+							"     pm.test(\"METHOD NOT ALLOWED\", function () {\r",
+							"        pm.response.to.have.status(405);\r",
+							"    });\r",
+							"}else if(statusCode == 500){\r",
+							"     pm.test(\"INTERNAL SERVER ERROR\", function () {\r",
+							"        pm.response.to.have.status(500);\r",
+							"    });\r",
+							"}else if(statusCode == 502){\r",
+							"     pm.test(\"BAD GATEWAY\", function () {\r",
+							"        pm.response.to.have.status(502);\r",
+							"    });\r",
+							"}else if(statusCode == 503){\r",
+							"     pm.test(\"SERVICE UNAVAILABLE\", function () {\r",
+							"        pm.response.to.have.status(503);\r",
+							"    });\r",
+							"}else {\r",
+							"    pm.test(\"Something Went Wrong\")\r",
+							"}\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n\"Permanent_Address\": {\r\n\"House_Number\": \"{{House_Number}}\",\r\n\"City\": \"{{City}}\",\r\n \"State\": \"{{State}}\",\r\n\"Country\": \"{{Country}}\",\r\n\"PhoneNumber\": [\r\n{ \r\n\"Std_Code\": \"{{Std_Code}}\",\r\n\"Home\": \"{{Home}}\",\r\n \"Mobile\": \"{{Mobile}}\"\r\n},\r\n{\r\n\"Std_Code\": \"{{Std_Code1}}\",\r\n\"Home\": \"{{Home1}}\",\r\n\"Mobile\": \"{{Mobile1}}\"\r\n} \r\n] \r\n},\r\n\"stId\": {{id}}\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/addresses",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"addresses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FINAL STUDENT DETAILS",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var statusCode = pm.response.code\r",
+							"if(statusCode == 200){\r",
+							"    var jsonData = pm.response.json()   \r",
+							"    pm.test(\"Created Successfully\", function () {\r",
+							"            pm.response.to.have.status(200);\r",
+							"        });\r",
+							"    \r",
+							"    pm.test(\"Language Validation\", function(){\r",
+							"        pm.expect(jsonData.data.TechnicalDetails[0].language).to.eql(pm.environment.get(\"language\"))\r",
+							"    })\r",
+							"\r",
+							"    pm.test(\"Year Of Experience Validation\", function(){\r",
+							"        pm.expect(jsonData.data.TechnicalDetails[0].yearexp).to.eql(pm.environment.get(\"yearexp\"))\r",
+							"    })\r",
+							"    pm.test(\"House Number Validation\", function(){\r",
+							"        pm.expect(jsonData.data.Address[0].Permanent_Address.House_Number).to.eql(pm.environment.get(\"House_Number\"))\r",
+							"    })\r",
+							"    pm.test(\"City Validation\", function() {\r",
+							"        pm.expect(jsonData.data.Address[0].Permanent_Address.City).to.eql(pm.environment.get(\"City\"))\r",
+							"    })\r",
+							"    pm.test(\"Country Validation\", function() {\r",
+							"        pm.expect(jsonData.data.Address[0].Permanent_Address.Country).to.eql(pm.environment.get(\"Country\"))\r",
+							"    })\r",
+							"    pm.test(\"Mobile Validation\", function() {\r",
+							"        pm.expect(jsonData.data.Address[0].Permanent_Address.PhoneNumber[0].Mobile).to.eql(pm.environment.get(\"Mobile\"))\r",
+							"    })\r",
+							"    pm.test(\"Mobile 1 Validation\", function() {\r",
+							"        pm.expect(jsonData.data.Address[0].Permanent_Address.PhoneNumber[1].Mobile).to.eql(pm.environment.get(\"Mobile1\"))\r",
+							"    })\r",
+							"    pm.test(\"Current Address Validation\", function() {\r",
+							"        pm.expect(jsonData.data.Address[0].Current_Address).to.be.null;\r",
+							"    })\r",
+							"}else if(statusCode == 400){\r",
+							"     pm.test(\"BAD REQUEST\", function () {\r",
+							"        pm.response.to.have.status(400);\r",
+							"    });\r",
+							"}else if(statusCode == 401){\r",
+							"     pm.test(\"UNAUTHORIZED\", function () {\r",
+							"        pm.response.to.have.status(401);\r",
+							"    });\r",
+							"}else if(statusCode == 404){\r",
+							"     pm.test(\"NOT FOUND\", function () {\r",
+							"        pm.response.to.have.status(404);\r",
+							"    });\r",
+							"}else if(statusCode == 405){\r",
+							"     pm.test(\"METHOD NOT ALLOWED\", function () {\r",
+							"        pm.response.to.have.status(405);\r",
+							"    });\r",
+							"}else if(statusCode == 500){\r",
+							"     pm.test(\"INTERNAL SERVER ERROR\", function () {\r",
+							"        pm.response.to.have.status(500);\r",
+							"    });\r",
+							"}else if(statusCode == 502){\r",
+							"     pm.test(\"BAD GATEWAY\", function () {\r",
+							"        pm.response.to.have.status(502);\r",
+							"    });\r",
+							"}else if(statusCode == 503){\r",
+							"     pm.test(\"SERVICE UNAVAILABLE\", function () {\r",
+							"        pm.response.to.have.status(503);\r",
+							"    });\r",
+							"}else {\r",
+							"    pm.test(\"Something Went Wrong\")\r",
+							"}\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/FinalStudentDetails/{{id}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"FinalStudentDetails",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
